@@ -823,8 +823,12 @@ LSQUnit<Impl>::read(LSQRequest *req, int load_idx)
             load_inst->seqNum, load_inst->pcState());
 
     // Allocate memory if this is the first time a load is issued.
+
+
     if (!load_inst->memData) {
+        //Debug:1
         load_inst->memData = new uint8_t[req->mainRequest()->getSize()];
+        //load_inst->memData = new uint8_t[16];
     }
 
     // For now, load throughput is constrained by the number of

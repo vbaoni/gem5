@@ -54,6 +54,7 @@
 #include "debug/Drain.hh"
 #include "debug/Fetch.hh"
 #include "debug/LSQ.hh"
+#include "debug/PC_flag.hh"
 #include "debug/Writeback.hh"
 #include "params/DerivO3CPU.hh"
 
@@ -353,7 +354,14 @@ LSQ<Impl>::recvTimingResp(PacketPtr pkt)
             thread[tid].checkSnoop(pkt);
         }
     }
-    // Update the LSQRequest state (this may delete the request)
+
+//Vanshika edited
+  //  else{
+  //      if (pkt->isRead()){
+  //      DPRINTF(PC_flag, "Address: %#X and Data: %#X\n
+  //      ",pkt->getAddr(),*(pkt->getPtr<uint64_t>()));
+  //  }}
+       // Update the LSQRequest state (this may delete the request)
     senderState->request()->packetReplied();
 
     return true;
@@ -991,6 +999,11 @@ LSQ<Impl>::SingleDataRequest::recvTimingResp(PacketPtr pkt)
     state->outstanding--;
     assert(pkt == _packets.front());
     _port.completeDataAccess(pkt);
+//           if (pkt->isRead()){
+//		   cout << "Hello Address:"<<hex<<pkt->getAddr() << " and Data:
+//		   "<<hex<<*(pkt->getPtr<uint64_t>())<<"\n";
+//	}
+
     return true;
 }
 

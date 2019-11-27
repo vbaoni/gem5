@@ -83,7 +83,8 @@ Trace::ExeTracerRecord::traceInst(const StaticInstPtr &inst, bool ran)
         dumpTicks(outs);
 
     outs << thread->getCpuPtr()->name() << " ";
-
+ // Vanshika Updated
+    outs << hex << pc.instAddr() << " ";
     if (Debug::ExecAsid)
         outs << "A" << dec << TheISA::getExecutingAsid(thread) << " ";
 

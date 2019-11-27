@@ -1035,6 +1035,14 @@ BaseCache::access(PacketPtr pkt, CacheBlk *&blk, Cycles &lat,
     Cycles tag_latency(0);
     blk = tags->accessBlock(pkt->getAddr(), pkt->isSecure(), tag_latency);
 
+
+//Vanshika edited
+//DPRINTF(PC_flag,"%#x, size=%d\n",pkt->getAddr(),pkt->getSize());
+
+
+
+
+
     DPRINTF(Cache, "%s for %s %s\n", __func__, pkt->print(),
             blk ? "hit " + blk->print() : "miss");
 

@@ -46,17 +46,29 @@
 #ifndef __CPU_O3_LSQ_UNIT_IMPL_HH__
 #define __CPU_O3_LSQ_UNIT_IMPL_HH__
 
+#include <iomanip>
+#include <string>
+
 #include "arch/generic/debugfaults.hh"
+#include "arch/isa_traits.hh"
 #include "arch/locked_mem.hh"
+#include "arch/utility.hh"
+#include "base/loader/symtab.hh"
 #include "base/str.hh"
 #include "config/the_isa.hh"
+#include "cpu/base.hh"
 #include "cpu/checker/cpu.hh"
 #include "cpu/o3/lsq.hh"
 #include "cpu/o3/lsq_unit.hh"
+#include "cpu/static_inst.hh"
+#include "cpu/thread_context.hh"
 #include "debug/Activity.hh"
+#include "debug/ExecAll.hh"
 #include "debug/IEW.hh"
 #include "debug/LSQUnit.hh"
 #include "debug/O3PipeView.hh"
+#include "debug/PC_flag.hh"
+#include "enums/OpClass.hh"
 #include "mem/packet.hh"
 #include "mem/request.hh"
 
@@ -544,6 +556,7 @@ LSQUnit<Impl>::executeLoad(const DynInstPtr &inst)
 
     if (load_fault == NoFault && !inst->readMemAccPredicate()) {
         assert(inst->readPredicate());
+
         inst->setExecuted();
         inst->completeAcc(nullptr);
         iewStage->instToCommit(inst);
@@ -587,6 +600,25 @@ LSQUnit<Impl>::executeLoad(const DynInstPtr &inst)
             auto it = inst->lqIt;
             ++it;
 
+ DPRINTF(PC_flag,"\n Hey Hello Address :::::  Address = %#x and Size = %#x\n",
+                 inst->effAddr, inst->effSize);
+//
+//
+//
+//
+
+//uint8_t *data = inst->memData;
+                //auto dv = data.as_vec->as<uint32_t>();
+        uint64_t d=0;
+                    for (int i = 0; i < 8; i++) {
+                            d = d + (*(inst->memData + i) << (8 * i));
+                      }
+
+
+
+        DPRINTF(PC_flag,
+        "Hello Addressi 2 :::::  Address = %#x and Data = %x\n",
+        inst->effAddr, d);
             if (checkLoads)
                 return checkViolations(it, inst);
         }
